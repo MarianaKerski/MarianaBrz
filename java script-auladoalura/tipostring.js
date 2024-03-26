@@ -9,4 +9,4 @@ const meuNome = "Mari";
 
 console.log(citacao + meuNome)
 
-//template string OU template literal
+//template string 
