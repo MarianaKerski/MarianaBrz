@@ -1,24 +1,25 @@
-import defs
+def registrar_usuario(dados):
+    cadastro_usuario = input("\n\nNome Completo: ")
+    if cadastro_usuario in dados:
+        print("ERRO! Ja existe um usuario com esse nome")
+        return
+    cadastro_senha = input("\n\nCrie uma senha: ")
+    print("Cadatro realizado com sucesso!")
+    dados[cadastro_usuario] = cadastro_senha
 
-defs.limpaTerminal()
+dados_login_e_senha = {}
+answer = input("Você é um novo usuário? Responda 'Sim' ou 'Não': ")
 
-while True:
+if answer == "Sim" or answer == "sim": 
+    print("Vamos nos cadatrar!")
+    registrar_usuario(dados_login_e_senha)
 
-    escolha = defs.menu()
-
-    if escolha == '1':
-        defs.cadastro()
-    elif escolha == '2':
-        defs.mostraDados()
-    elif escolha == '3':
-        defs.clientesCadastrados
-    elif escolha == '4':
-        defs.relatorio()
-    elif escolha == '0':
-        print('\033[1;36m' 'Até a proxima' '\033[0;0m')
-        break
+usuario = input("Entre com seu usuario: ")
+senha = input("Informe a senha: ")
+if usuario in dados_login_e_senha:
+    if dados_login_e_senha[usuario] == senha:
+        print("Login efetuado")
     else:
-            defs.limpaTerminal()
-            defs.criaBarra()
-            print('\033;1;31m' 'Insira uma opção valida!' '\033[0;0m')
-            defs.criaBarra()
+        print("Senha incorreta")
+else:
+    print("Nao existe nenhum cadastro com esse nome de usuario")
