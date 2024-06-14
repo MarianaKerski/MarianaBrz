@@ -24,3 +24,10 @@ else:
     print('Seja bem-vindo ao Superabacato')
     print('ㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤ')
     print('Aqui está o catálogo')
+
+    arquivo = open("Produtos.txt", "r")
+    conteudo = arquivo.read()
+    print("Catalogo:")
+    print(conteudo)
+    import catalogo
+    arquivo.close()
