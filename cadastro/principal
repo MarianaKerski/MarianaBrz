@@ -1,0 +1,26 @@
+def registrar_usuario(dados):
+
+    arq = open('cadastros.txt', 'a')
+    print('Olá, vamos criar a sua conta!')
+    email = input('Informe o seu e-mail: ')
+    senha = input('Agora, crie sua senha:')
+    arq.write('{}, {}\n'.format(email, senha))
+    print('Cadastro criado com sucesso!')
+    arq.close()
+
+
+dados_login = {}
+answer = input("Você é um novo usuário? Responda 'Sim' ou 'Não': ")
+
+if answer == "Sim" or answer == "sim": 
+    print("Vamos nos cadatrar!")
+    registrar_usuario(dados_login)
+else:
+    login_email = input('informe o seu email:')
+    login_senha = input('Digite sua senha:')
+    print('ㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤ')
+    print('Login feito com sucesso')
+    print('ㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤ')
+    print('Seja bem-vindo ao Superabacato')
+    print('ㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤ')
+    print('Aqui está o catálogo')
