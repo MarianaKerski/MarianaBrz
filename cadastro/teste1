@@ -1,0 +1,11 @@
+arq = open('registrados.txt', 'a')
+print('Olá, vamos criar a sua conta!')
+email = input('Informe o seu e-mail: ')
+arq.write('{}\n'.format(email))
+arq.close()
+
+arq = open('senha.txt', 'a')
+senha = input('Crie sua senha:')
+arq.write('{}\n'.format(senha))
+print('Cadastro criado com sucesso!')
+arq.close()
