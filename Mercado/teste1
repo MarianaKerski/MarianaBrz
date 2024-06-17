@@ -1,6 +1,8 @@
 def menu():
     print("BEM VINDO AO SUPERABACATO")
+    print("ㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤ")
     print("MENU DE OPÇÕES")
+    print("ㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤ")
     print('1 - CADASTRAR USUÁRIO\n2-LOGIN\n0-SAIR')
 
 def opção_0():
