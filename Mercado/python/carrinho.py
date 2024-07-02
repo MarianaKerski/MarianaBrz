@@ -10,6 +10,11 @@ produtos = (
     {'id':8, 'nome': 'miojo', 'preco': 3.98}
 )
 
+from datetime import date
+
+data_atual = int
+data_atual=date.today()
+
 carrinho = []
 
 def exibirOpcoes():
@@ -72,14 +77,20 @@ while opcao != '5':
             print(
                 'Nome: {0} - Quantidade: {1}'.format(obterNomeProduto(item['id']), item['quantidade']))
         print('Preço total: {0}'.format(somatorio))
-
-        arquivo.write('\n{},\n{},'.format(obterNomeProduto(item['id']),'preço total: {0}'.format(somatorio)))
+        numero_cpf=(str(input("Digite seu CPF:")))
+        print ("--------------------")
+        print("DATA",data_atual)
+        print ("---------")
+        print( "CPF:",numero_cpf)
+        print ("---------")
+        print("PREÇO TOTAL = ",somatorio)
+        arquivo.write('{},{},\n' (numero_cpf,data_atual))
         arquivo.close()
 
-        print("Nota fiscal:")
-
-    with open("notafiscal.txt", "r")as arquivo:
-        texto=arquivo.read()
-    print(texto)
     if opcao == '4':
         carrinho = []
+
+    if opcao == '5':
+        print("Volte logo!")
+        exit()
+
