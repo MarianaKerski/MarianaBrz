@@ -43,10 +43,10 @@ def opcao_1():
     return
     
 def opcao_2():
-    answer = input("Você é um novo usuário? Responda 'Sim' ou 'Não': ")
-    if answer == "Sim" or "sim":
+    answer = input("Você é um novo usuário? (sim/nao): ")
+    if answer == "sim":
         return opcao_1()
-    if answer == "Não" or "não":
+    elif answer == 'nao':
         login_email = input('informe o seu email:')
         print ("--------------------")
 
