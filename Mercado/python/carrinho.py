@@ -1,19 +1,19 @@
 import os
 produtos = (
     {'id':1, 'nome': 'abacate', 'preco': 3.99},
-    {'id':2, 'nome': 'pão', 'preco': 14.98},
-    {'id':3, 'nome': 'alvejante', 'preco': 5.99},
-    {'id':4, 'nome': 'mamao', 'preco': 7.37},
-    {'id':5, 'nome': 'pera', 'preco': 6.00},
-    {'id':6, 'nome': 'deca', 'preco': 170.00},
-    {'id':7, 'nome': 'trembolona', 'preco': 250.98},
-    {'id':8, 'nome': 'miojo', 'preco': 3.98}
+    {'id':2, 'nome': 'mamao', 'preco': 7.37},
+    {'id':3, 'nome': 'pera', 'preco': 6.00},
+    {'id':4, 'nome': 'uva verde', 'preco': 14.99},
+    {'id':5, 'nome': 'pao de queijo', 'preco': 0.50},
+    {'id':6, 'nome': 'pão frances', 'preco': 1.98},
+    {'id':7, 'nome': 'bolo de fuba', 'preco': 20.60},
+    {'id':8, 'nome': 'macarrao instantaneo Nissin', 'preco': 3.98},
+    {'id':9, 'nome': 'Coca-cola original 2l', 'preco':14.99},
+    {'id':10, 'nome': 'alvejante', 'preco': 5.99},
+    {'id':11, 'nome': 'deca', 'preco': 170.00},
+    {'id':12, 'nome': 'trembolona', 'preco': 250.98}
+    
 )
-
-from datetime import date
-
-data_atual = int
-data_atual=date.today()
 
 carrinho = []
 
@@ -34,7 +34,7 @@ def exibirProdutos():
 
 opcao = '1'
 
-os.system('clear')
+os.system
 print('BEM VINDO AO SUPERABACATO')
 print ("--------------------")
 print('MENU DE OPÇÕES')
@@ -64,7 +64,7 @@ while opcao != '5':
                 temp.remove(item)
 
     if opcao == '3':
-        arquivo=open("notafiscal.txt","w")
+        arquivo=open("notafiscal.txt","a")
         print('\n\n')
         somatorio = 0
         for item in carrinho:
@@ -74,19 +74,36 @@ while opcao != '5':
                     (produto['preco'] * item['quantidade'])
                     break
 
-            print(
+        import datetime
+        data_atual = datetime.date.today()
+        data_formatada = data_atual.strftime("%d/%m/%Y")
+
+        print(
                 'Nome: {0} - Quantidade: {1}'.format(obterNomeProduto(item['id']), item['quantidade']))
         print('Preço total: {0}'.format(somatorio))
-        numero_cpf=(str(input("Digite seu CPF:")))
+        nota = input("Deseja ter sua nota fiscal?(sim/nao (sair))")
+        if nota == "nao":
+            exit()
+        if nota == "sim":
+            print("Digite seu CPF:")
+            cpf = input()
         print ("--------------------")
-        print("DATA",data_atual)
+        print("DATA:", (data_atual))
         print ("---------")
-        print( "CPF:",numero_cpf)
+        print( "CPF:", cpf)
         print ("---------")
         print("PREÇO TOTAL = ",somatorio)
-        arquivo.write('{},{},\n' (numero_cpf,data_atual))
+        arquivo.write("cpf = ")
+        arquivo.write((cpf))
+        arquivo.write('\n')
+        arquivo.write('Preco total: {0}'.format(somatorio))
+        arquivo.write('\n')
+        arquivo.write('Data:')
+        arquivo.write(str(data_formatada))
+        arquivo.write('\n')
+        arquivo.write('--------------')
+        arquivo.write('\n')
         arquivo.close()
-
     if opcao == '4':
         carrinho = []
 
