@@ -8,10 +8,11 @@ produtos = (
     {'id':6, 'nome': 'pão frances', 'preco': 1.98},
     {'id':7, 'nome': 'bolo de fuba', 'preco': 20.60},
     {'id':8, 'nome': 'macarrao instantaneo Nissin', 'preco': 3.98},
-    {'id':9, 'nome': 'Coca-cola original 2l', 'preco':14.99},
-    {'id':10, 'nome': 'alvejante', 'preco': 5.99},
-    {'id':11, 'nome': 'deca', 'preco': 170.00},
-    {'id':12, 'nome': 'trembolona', 'preco': 250.98}
+    {'id':9, 'nome': 'Dúzia de ovos', 'preco':8.00},
+    {'id':10, 'nome': 'Coca-cola original 2l', 'preco':14.99},
+    {'id':11, 'nome': 'alvejante', 'preco': 5.99},
+    {'id':12, 'nome': 'deca', 'preco': 170.00},
+    {'id':13, 'nome': 'trembolona', 'preco': 250.98}
     
 )
 
@@ -61,7 +62,8 @@ while opcao != '5':
         temp = []
         for item in carrinho:
             if item['id'] != id:
-                temp.remove(item)
+                temp.append(item)
+                carrinho = temp
 
     if opcao == '3':
         arquivo=open("notafiscal.txt","a")
@@ -81,8 +83,9 @@ while opcao != '5':
         print(
                 'Nome: {0} - Quantidade: {1}'.format(obterNomeProduto(item['id']), item['quantidade']))
         print('Preço total: {0}'.format(somatorio))
-        nota = input("Deseja ter sua nota fiscal?(sim/nao (sair))")
+        nota = input("Deseja ter sua nota fiscal?(sim/nao - sair)")
         if nota == "nao":
+            print('Obrigado pela preferencia! Volte logo.')
             exit()
         if nota == "sim":
             print("Digite seu CPF:")
