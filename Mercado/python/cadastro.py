@@ -13,6 +13,7 @@ def opcao_1():
     arq = open('cadastros.txt', 'a')
     print('Olá, vamos criar a sua conta!')
     print ("--------------------")
+
     import re
 
     print("Cadastre seu email")
@@ -47,14 +48,19 @@ def opcao_2():
     if answer == "sim":
         return opcao_1()
     elif answer == 'nao':
+        with open('cadastros.txt', 'r') as cadastros:
+            conteudo_arquivo = cadastros.readlines()
         login_email = input('informe o seu email:')
         print ("--------------------")
-
         login_senha = input('Digite sua senha:')
-    print('Login feito com sucesso')
-    print('ㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤ')
- 
-    import carrinho
+    if login_email not in conteudo_arquivo:
+        if login_senha not in conteudo_arquivo:
+            print('E-mail não cadastrado.')
+        return opcao_1()
+    else:
+        if login_email  in conteudo_arquivo:
+             if login_senha  in conteudo_arquivo:
+                import carrinho
 
 while True:
     menu()
