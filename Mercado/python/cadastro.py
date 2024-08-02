@@ -5,7 +5,7 @@ def menu():
     print("ㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤ")
     print('1-CADASTRAR USUÁRIO\n2-LOGIN\n0-SAIR')
 
-def opção_0():
+def opcao_0():
     print("ATÉ LOGO")
     exit()
 
@@ -42,35 +42,35 @@ def opcao_1():
     print('Cadastro criado com sucesso!')
     arq.close()
     return
-    
+
 def opcao_2():
-    answer = input("Você é um novo usuário? (sim/nao): ")
-    if answer == "sim":
-        return opcao_1()
-    elif answer == 'nao':
-        with open('cadastros.txt', 'r') as cadastros:
-            conteudo_arquivo = cadastros.readlines()
-        login_email = input('informe o seu email:')
-        print ("--------------------")
-        login_senha = input('Digite sua senha:')
-    if login_email not in conteudo_arquivo:
-        if login_senha not in conteudo_arquivo:
-            print('E-mail não cadastrado.')
-        return opcao_1()
-    else:
-        if login_email  in conteudo_arquivo:
-             if login_senha  in conteudo_arquivo:
-                import carrinho
+    with open('cadastros.txt', 'r') as cadastros:
+        conteudo_arquivo = cadastros.readlines()
+    login_email = input('informe o seu email:')
+    print ("--------------------")
+    login_senha = input('Digite sua senha:')
+    encontrado = False
+    for linha in conteudo_arquivo:
+        linha = linha.strip()  
+        email, senha = linha.split(', ')  
+        senha = senha.strip()  
+        if email == login_email and senha == login_senha:
+            encontrado = True
+            print('Login efetuado com sucesso!')
+            import carrinho
+            carrinho
+    if not encontrado:
+        print('E-mail ou senha incorretos.')
 
 while True:
     menu()
-    opçao = input("ESCOLHA A SUA OPÇÃO:")
-    if opçao == "1":
+    opcao = input("ESCOLHA A SUA OPÇÃO:")
+    if opcao == "1":
         opcao_1()
-    elif opçao == "2":
+    elif opcao == "2":
         opcao_2()
+    elif opcao == "0":
+        opcao_0()
     else:
         print("Valor inválido")
         break
-menu()
-
