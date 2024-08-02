@@ -76,37 +76,45 @@ while opcao != '5':
                     (produto['preco'] * item['quantidade'])
                     break
 
-        import datetime
-        data_atual = datetime.date.today()
-        data_formatada = data_atual.strftime("%d/%m/%Y")
+                import datetime
+            data_atual = datetime.date.today()
+            data_formatada = data_atual.strftime("%d/%m/%Y")
 
-        print(
+            print(
                 'Nome: {0} - Quantidade: {1}'.format(obterNomeProduto(item['id']), item['quantidade']))
         print('Preço total: {0}'.format(somatorio))
-        nota = input("Deseja ter sua nota fiscal?(sim/nao - sair)")
-        if nota == "nao":
+        
+        continuarcompra = input("deseja continuar comprando?(sim/nao - prosseguir para pagamento)")
+        if continuarcompra == "nao":
+            if continuarcompra == "sim":
+                    break
+
+            nota = input("Deseja ter sua nota fiscal?(sim/nao - sair)")
+            if nota == "nao":
+                print('Obrigado pela preferencia! Volte logo.')
+                exit()
+            if nota == "sim":
+                print("Digite seu CPF:")
+            cpf = input()
+            print ("--------------------")
+            print("DATA:", (data_atual))
+            print ("---------")
+            print( "CPF:", cpf)
+            print ("---------")
+            print("PREÇO TOTAL = ",somatorio)
+            arquivo.write("cpf = ")
+            arquivo.write((cpf))
+            arquivo.write('\n')
+            arquivo.write('Preco total: {0}'.format(somatorio))
+            arquivo.write('\n')
+            arquivo.write('Data:')
+            arquivo.write(str(data_formatada))
+            arquivo.write('\n')
+            arquivo.write('--------------')
+            arquivo.write('\n')
+            arquivo.close()
             print('Obrigado pela preferencia! Volte logo.')
             exit()
-        if nota == "sim":
-            print("Digite seu CPF:")
-            cpf = input()
-        print ("--------------------")
-        print("DATA:", (data_atual))
-        print ("---------")
-        print( "CPF:", cpf)
-        print ("---------")
-        print("PREÇO TOTAL = ",somatorio)
-        arquivo.write("cpf = ")
-        arquivo.write((cpf))
-        arquivo.write('\n')
-        arquivo.write('Preco total: {0}'.format(somatorio))
-        arquivo.write('\n')
-        arquivo.write('Data:')
-        arquivo.write(str(data_formatada))
-        arquivo.write('\n')
-        arquivo.write('--------------')
-        arquivo.write('\n')
-        arquivo.close()
     if opcao == '4':
         carrinho = []
 
