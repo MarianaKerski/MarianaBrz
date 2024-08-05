@@ -1,0 +1,247 @@
+const fs = require('fs');
+const readline = require('readline').createInterface({
+  input: process.stdin,
+  output: process.stdout
+});
+
+const fileName = 'users.txt';
+
+// Função principal
+function main() {
+  console.log('1 - Cadastrar\n2 - Entrar');
+  readline.question('Escolha uma opção: ', option => {
+    switch (option) {
+      case '1':
+        readline.question('Digite o nome de usuário: ', username => {
+          readline.question('Digite a senha: ', password => {
+            saveUser(username, password);
+            main();
+          });
+        });
+        break;
+      case '2':
+        readline.question('Digite o nome de usuário: ', username => {
+          readline.question('Digite a senha: ', password => {
+            checkLogin(username, password);
+            main();
+          });
+        });
+        break;
+      default:
+        console.log('Opção inválida.');
+        main();
+    }
+  });
+}
+
+// Função para salvar usuário
+function saveUser(username, password) {
+  const user = `${username}:${password}\n`;
+  fs.appendFile(fileName, user, (err) => {
+    if (err) throw err;
+    console.log('Usuário cadastrado com sucesso!');
+  });
+}
+
+// Função para verificar login
+function checkLogin(username, password) {
+  fs.readFile(fileName, 'utf8', (err, data) => {
+    if (err) {
+      console.log('Erro ao ler o arquivo.');
+      return;
+    }
+    const users = data.split('\n');
+    const userFound = users.find(user => {
+      const [userUsername, userPassword] = user.split(':');
+      return userUsername === username && userPassword === password;
+    });
+
+    if (userFound) {
+        console.log('Login efetuado com sucesso!');
+        console.log('--------------------------');
+        console.log('BEM VINDO AO SUPER ABACATO'); 
+        console.log('--------------------------');
+
+        const fs = require('fs');
+const readline = require('readline').createInterface({
+  input: process.stdin,
+  output: process.stdout
+});
+
+const produtos = [
+  { id: 1, nome: 'abacate', preco: 3.99  },
+  { id: 2, nome: 'mamao', preco: 7.37 },
+  { id: 3, nome: 'Pera', preco: 6.00 },
+  { id: 4, nome: 'uva verde', preco: 14.99 },
+  { id: 5, nome: 'Pao de queijo', preco: 0.49 }
+];
+
+let carrinho = [];
+
+function listarProdutos() {
+  console.log('Lista de Produtos:');
+  produtos.forEach((produto) => {
+    console.log(`${produto.id} - ${produto.nome} - R$ ${produto.preco}`);
+  });
+}
+
+function adicionarAoCarrinho() {
+  listarProdutos();
+  readline.question('Digite o ID do produto que deseja adicionar ao carrinho: ', (id) => {
+    const produto = produtos.find((p) => p.id === parseInt(id));
+    if (produto) {
+      readline.question('Digite a quantidade do produto: ', (quantidade) => {
+        const quantidadeFloat = parseFloat(quantidade);
+        if (quantidadeFloat > 0) {
+          const item = { produto, quantidade: quantidadeFloat };
+          carrinho.push(item);
+          console.log(`Produto ${produto.nome} adicionado ao carrinho com quantidade ${quantidadeFloat}!`);
+        } else {
+          console.log('Quantidade inválida!');
+        }
+        menu();
+      });
+    } else {
+      console.log('Produto não encontrado!');
+      menu();
+    }
+  });
+}
+
+function retirarDoCarrinho() {
+  if (carrinho.length === 0) {
+    console.log('Carrinho vazio!');
+    menu();
+  } else {
+    console.log('Carrinho:');
+    carrinho.forEach((item, index) => {
+      console.log(`${index + 1} - ${item.produto.nome} - Quantidade: ${item.quantidade}`);
+    });
+    readline.question('Digite o número do item que deseja retirar do carrinho: ', (numero) => {
+      const index = parseInt(numero) - 1;
+      if (index >= 0 && index < carrinho.length) {
+        carrinho.splice(index, 1);
+        console.log('Item retirado do carrinho!');
+      } else {
+        console.log('Item não encontrado!');
+      }
+      menu();
+    });
+  }
+}
+
+function esvaziarCarrinho() {
+  carrinho = [];
+  console.log('Carrinho esvaziado!');
+  menu();
+}
+
+function continuarParaPagamento() {
+  if (carrinho.length === 0) {
+    console.log('Carrinho vazio!');
+    menu();
+  } else {
+    const total = carrinho.reduce((acc, item) => acc + item.produto.preco * item.quantidade, 0);
+    console.log(`Total: R$ ${total}`);
+    readline.question('Deseja nota fiscal? (sim/nao) ', (resposta) => {
+      if (resposta.toLowerCase() === 'sim') {
+        readline.question('Digite seu CPF: ', (cpf) => {
+          const data = new Date();
+          const notaFiscal = `CPF: ${cpf}\nProdutos:\n${carrinho.map((item) => `${item.produto.nome} - Quantidade: ${item.quantidade}`).join('\n')}\nData: ${data.toLocaleDateString()}\nHora: ${data.toLocaleTimeString()}\nTotal: R$ ${total}`;
+          fs.writeFile(`nota_fiscal= ${cpf}.txt`, notaFiscal, (err) => { 
+            if (err) {
+              console.log('Erro ao salvar nota fiscal!');
+            } else {
+              console.log('Nota fiscal salva com sucesso!');
+            }
+          });
+        });
+      }
+      menu();
+    });
+  }
+}
+function menu() {
+  console.log('1 - Listar Produtos');
+  console.log('2 - Adicionar ao Carrinho');
+  console.log('3 - Retirar do Carrinho');
+  console.log('4 - Esvaziar Carrinho');
+  console.log('5 - Continuar para Pagamento');
+  console.log('6 - Sair');
+  readline.question('Escolha uma opção: ', (opcao) => {
+    switch (opcao) {
+      case '1':
+        console.log('------------------');
+        listarProdutos();
+        console.log('------------------');
+        menu();
+        break;
+      case '2':
+        console.log('------------------');
+        adicionarAoCarrinho();
+        console.log('------------------');
+        break;
+      case '3':
+        console.log('------------------');
+        retirarDoCarrinho();
+        console.log('------------------');
+        break;
+      case '4':
+        console.log('------------------');
+        esvaziarCarrinho();
+        console.log('------------------');
+        break;
+        case '5':
+        console.log('------------------');
+        continuarParaPagamento();
+        console.log('------------------');
+        break;
+        case '6':
+        console.log('------------------');
+        sair();
+        break;
+        default:
+          console.log('opçao invalida');
+          menu();
+    }
+    });
+  }
+
+  menu();
+     } else {
+      console.log('Usuário ou senha inválidos.');
+    }
+  });
+}
+
+// Função principal
+function main() {
+  console.log('1 - Cadastrar\n2 - Entrar');
+  readline.question('Escolha uma opção: ', option => {
+    switch (option) {
+      case '1':
+        readline.question('Digite o nome de usuário: ', username => {
+          readline.question('Digite a senha: ', password => {
+            saveUser(username, password);
+            main();
+          });
+        });
+        break;
+      case '2':
+        readline.question('Digite o nome de usuário: ', username => {
+          readline.question('Digite a senha: ', password => {
+            checkLogin(username, password);
+            main();
+          });
+        });
+        break;
+      default:
+        console.log('Opção inválida.');
+        main();
+    }
+  });
+}
+
+
+
+main();
