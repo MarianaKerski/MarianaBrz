@@ -26,9 +26,6 @@ function main() {
             main();
           });
         });
-        break;
-      default:
-        console.log('Opção inválida.');
         main();
     }
   });
@@ -162,86 +159,54 @@ function continuarParaPagamento() {
   }
 }
 function menu() {
-  console.log('1 - Listar Produtos');
-  console.log('2 - Adicionar ao Carrinho');
-  console.log('3 - Retirar do Carrinho');
-  console.log('4 - Esvaziar Carrinho');
-  console.log('5 - Continuar para Pagamento');
-  console.log('6 - Sair');
+  console.log('3 - Listar Produtos');
+  console.log('4 - Adicionar ao Carrinho');
+  console.log('5 - Retirar do Carrinho');
+  console.log('6 - Esvaziar Carrinho');
+  console.log('7 - Continuar para Pagamento');
+  console.log('8 - Sair');
   readline.question('Escolha uma opção: ', (opcao) => {
     switch (opcao) {
-      case '1':
+      case '3':
         console.log('------------------');
         listarProdutos();
         console.log('------------------');
         menu();
         break;
-      case '2':
+      case '4':
         console.log('------------------');
         adicionarAoCarrinho();
-        console.log('------------------');
         break;
-      case '3':
+      case '5':
         console.log('------------------');
         retirarDoCarrinho();
         console.log('------------------');
         break;
-      case '4':
+      case '6':
         console.log('------------------');
         esvaziarCarrinho();
         console.log('------------------');
         break;
-        case '5':
+      case '7':
         console.log('------------------');
         continuarParaPagamento();
-        console.log('------------------');
         break;
-        case '6':
+      case '8':
         console.log('------------------');
         sair();
         break;
         default:
-          console.log('opçao invalida');
+        console.log('opçao invalida');
           menu();
     }
     });
   }
 
   menu();
-     } else {
-      console.log('Usuário ou senha inválidos.');
-    }
+     } 
   });
 }
-
-// Função principal
-function main() {
-  console.log('1 - Cadastrar\n2 - Entrar');
-  readline.question('Escolha uma opção: ', option => {
-    switch (option) {
-      case '1':
-        readline.question('Digite o nome de usuário: ', username => {
-          readline.question('Digite a senha: ', password => {
-            saveUser(username, password);
-            main();
-          });
-        });
-        break;
-      case '2':
-        readline.question('Digite o nome de usuário: ', username => {
-          readline.question('Digite a senha: ', password => {
-            checkLogin(username, password);
-            main();
-          });
-        });
-        break;
-      default:
-        console.log('Opção inválida.');
-        main();
-    }
-  });
-}
-
 
 
 main();
+
