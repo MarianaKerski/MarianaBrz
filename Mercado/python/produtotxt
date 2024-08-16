@@ -1,0 +1,108 @@
+import os
+produtos = ('produtos.txt')
+
+carrinho = []
+
+def exibirOpcoes():
+    print('1 - Adicionar produto ao seu carrinho')
+    print('2 - Remover prouto do seu carrinho')
+    print('3 - Exibir produto e o valor total')
+    print('4 - Esvaziar Carrinho de compras')
+    print('5 - Sair')
+
+
+def exibirProdutos():
+    with open("produtos.txt","r") as arquivo:
+        conteúdo = arquivo.read()
+        print(conteúdo)
+
+
+opcao = '1'
+
+os.system
+print('┌────────────────────────────┐')
+print("│Bem vindo ao SuperAbacato 🛒│")
+print('└────────────────────────────┘')
+
+
+def obterNomeProduto(id):
+    for p in produtos:
+        if p['id'] == id:
+            return p['nome']
+
+
+while opcao != '5':
+    exibirOpcoes()
+    opcao = input('Digite a opção: ')
+
+    if opcao == '1':
+        exibirProdutos()
+        id = int(input('Digite o identificador do produto: '))
+        quantidade = float(input('Digite quantidade: '))
+        carrinho.append({'id': id, 'quantidade': quantidade})
+
+    if opcao == '2':
+        id = int(input('Digite o id do produto que deseja remover: '))
+        temp = []
+        for item in carrinho:
+            if item['id'] != id:
+                temp.append(item)
+                carrinho = temp
+
+    if opcao == '3':
+        arquivo=open("notafiscal.txt","a")
+        print('\n')
+        somatorio = 0
+        for item in carrinho:
+            for produto in produtos:
+                if produto['id'] == item['id']:
+                    somatorio = somatorio + \
+                    (produto['preco'] * item['quantidade'])
+                    break
+
+                import datetime
+            data_atual = datetime.date.today()
+            data_formatada = data_atual.strftime("%d/%m/%Y")
+
+            print(
+                'Nome: {0} - Quantidade: {1}'.format(obterNomeProduto(item['id']), item['quantidade']))
+        print('Preço total: {0}'.format(somatorio))
+        print('─────────────────')
+        continuarcompra = input("Deseja continuar comprando?(sim/nao):")
+        if continuarcompra == "não":
+            if continuarcompra == "sim":
+                    break
+
+            nota = input("Deseja ter sua nota fiscal?(sim/não - sair)")
+            if nota == "nao" or 'não':
+                print('Obrigado pela preferencia! Volte logo.')
+                exit()
+            if nota == "sim":
+                print("Digite seu CPF:")
+            cpf = input()
+            print ("─────────────────")
+            print("DATA:", (data_atual))
+            print ("─────────────────")
+            print( "CPF:", cpf)
+            print ("─────────────────")
+            print("PREÇO TOTAL = ",somatorio)
+            arquivo.write("cpf = ")
+            arquivo.write((cpf))
+            arquivo.write('\n')
+            arquivo.write('Preco total: {0}'.format(somatorio))
+            arquivo.write('\n')
+            arquivo.write('Data:')
+            arquivo.write(str(data_formatada))
+            arquivo.write('\n')
+            arquivo.write('--------------')
+            arquivo.write('\n')
+            arquivo.close()
+            print('─────────────────')
+            print('Obrigado pela preferencia! Volte logo.')
+            exit()
+    if opcao == '4':
+        carrinho = []
+
+    if opcao == '5':
+        print("Volte logo!")
+        exit()
