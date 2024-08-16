@@ -1,9 +1,11 @@
 def menu():
-    print("BEM VINDO AO SUPERABACATO")
+    print('┌────────────────────────────┐')
+    print("│Bem vindo ao SuperAbacato 🛒│")
+    print('└────────────────────────────┘')
     print("ㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤ")
-    print("MENU DE OPÇÕES")
+    print("Menu de opções")
     print("ㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤ")
-    print('1-CADASTRAR USUÁRIO\n2-LOGIN\n0-SAIR')
+    print('1-Cadastrar usuário\n2-Login\n0-Sair')
 
 def opcao_0():
     print("ATÉ LOGO")
@@ -11,21 +13,24 @@ def opcao_0():
 
 def opcao_1():
     arq = open('cadastros.txt', 'a')
-    print('Olá, vamos criar a sua conta!')
-    print ("--------------------")
+    print('┌─────────────────────────────┐')
+    print('│Olá, vamos criar a sua conta!│')
+    print('└─────────────────────────────┘')
 
     import re
 
-    print("Cadastre seu email")
-    print ("--------------------")
+    print("Vamos cadastrar seu email!")
+    print ("……")
+    print("ㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤ")
     email = input("Digite seu email : ")
-    print ("--------------------")
+    print ("\n")
 
     print("Cadastre aqui sua senha com os seguintes critérios: \n"
-      "         *Ao menos uma letra MAIÚSCULA\n"
-      "         *Ao menos um número\n"
-      "         *Ao menos um caractere especial(!@#$%¨&*)\n"
-      "         *Ao menos 8 digitos\n")
+        "\n"
+      "       *Ao menos uma letra MAIÚSCULA\n"
+      "       *Ao menos um número\n"
+      "       *Ao menos um caractere especial(!@#$%¨&*)\n"
+      "       *Ao menos 8 digitos\n")
     senha = input("Digite sua senha : ")
 
     while not (re.search(r'.{8,}', senha) and   
@@ -34,21 +39,20 @@ def opcao_1():
            re.search(r'[!@#$%¨&*]', senha)):  
         senha = input("Use como base os critérios informado : ")
         continue
-    print ("--------------------")
-
-    print("Senha cadastrada com sucesso!")
     arq.write('{}, {}\n'.format(email, senha))
-    print ("--------------------")
-    print('Cadastro criado com sucesso!')
     arq.close()
-    return
+    opcao_2()
 
 def opcao_2():
+    print ("──────────────────")
+    print("Faça o seu login:")
+    print ("──────────────────")
     with open('cadastros.txt', 'r') as cadastros:
         conteudo_arquivo = cadastros.readlines()
-    login_email = input('informe o seu email:')
-    print ("--------------------")
+    login_email = input('Informe o seu email:')
+    print ("\n")
     login_senha = input('Digite sua senha:')
+    print('\n')
     encontrado = False
     for linha in conteudo_arquivo:
         linha = linha.strip()  
@@ -64,7 +68,7 @@ def opcao_2():
 
 while True:
     menu()
-    opcao = input("ESCOLHA A SUA OPÇÃO:")
+    opcao = input("Escolha a sua opção:")
     if opcao == "1":
         opcao_1()
     elif opcao == "2":
