@@ -19,7 +19,6 @@ produtos = (
 carrinho = []
 
 def exibirOpcoes():
-    print('\n')
     print('1 - Adicionar produto ao seu carrinho')
     print('2 - Remover prouto do seu carrinho')
     print('3 - Exibir prouto e o valor total')
@@ -36,9 +35,9 @@ def exibirProdutos():
 opcao = '1'
 
 os.system
-print('BEM VINDO AO SUPERABACATO')
-print ("--------------------")
-print('MENU DE OPÇÕES')
+print('┌────────────────────────────┐')
+print("│Bem vindo ao SuperAbacato 🛒│")
+print('└────────────────────────────┘')
 
 
 def obterNomeProduto(id):
@@ -58,7 +57,7 @@ while opcao != '5':
         carrinho.append({'id': id, 'quantidade': quantidade})
 
     if opcao == '2':
-        id = int(input('Digite o id do produto: '))
+        id = int(input('Digite o id do produto que deseja remover: '))
         temp = []
         for item in carrinho:
             if item['id'] != id:
@@ -67,7 +66,7 @@ while opcao != '5':
 
     if opcao == '3':
         arquivo=open("notafiscal.txt","a")
-        print('\n\n')
+        print('\n')
         somatorio = 0
         for item in carrinho:
             for produto in produtos:
@@ -83,24 +82,24 @@ while opcao != '5':
             print(
                 'Nome: {0} - Quantidade: {1}'.format(obterNomeProduto(item['id']), item['quantidade']))
         print('Preço total: {0}'.format(somatorio))
-        
-        continuarcompra = input("deseja continuar comprando?(sim/nao - prosseguir para pagamento)")
-        if continuarcompra == "nao":
+        print('─────────────────')
+        continuarcompra = input("Deseja continuar comprando?(sim/nao):")
+        if continuarcompra == "não":
             if continuarcompra == "sim":
                     break
 
-            nota = input("Deseja ter sua nota fiscal?(sim/nao - sair)")
-            if nota == "nao":
+            nota = input("Deseja ter sua nota fiscal?(sim/não - sair)")
+            if nota == "nao" or 'não':
                 print('Obrigado pela preferencia! Volte logo.')
                 exit()
             if nota == "sim":
                 print("Digite seu CPF:")
             cpf = input()
-            print ("--------------------")
+            print ("─────────────────")
             print("DATA:", (data_atual))
-            print ("---------")
+            print ("─────────────────")
             print( "CPF:", cpf)
-            print ("---------")
+            print ("─────────────────")
             print("PREÇO TOTAL = ",somatorio)
             arquivo.write("cpf = ")
             arquivo.write((cpf))
@@ -113,6 +112,7 @@ while opcao != '5':
             arquivo.write('--------------')
             arquivo.write('\n')
             arquivo.close()
+            print('─────────────────')
             print('Obrigado pela preferencia! Volte logo.')
             exit()
     if opcao == '4':
@@ -121,4 +121,5 @@ while opcao != '5':
     if opcao == '5':
         print("Volte logo!")
         exit()
+
 
