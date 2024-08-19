@@ -61,7 +61,32 @@ def remover_itemcatalogo():
                 temp.append(item)
     if senha != UserAdmin:
                 print('Senha Errada.')
-
+def endereço():
+    arquivo=open("endereço.txt","a")
+    compra=input("Deseja ter sua compra entregue em sua residência?(sim/não)")
+    print("ㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤ")
+    if compra == 'sim':
+        print('Digite o seu CEP:')
+        cep=str(input(""))
+        print("ㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤ")
+        print('Digite o número da sua residência:')
+        numero=str(input(""))
+        print("ㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤ")
+        print("Sua compra será enviada para o endereço em breve...")
+        arquivo.write("CEP:")
+        arquivo.write(cep)
+        arquivo.write("\n")
+        arquivo.write("NÚMERO:")
+        arquivo.write(numero)
+        arquivo.write("\n")
+        arquivo.write("───────────────")
+        arquivo.write("\n")
+        arquivo.close
+    if compra == 'não':
+        print("ㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤ")
+        print("Obrigado pela preferência, volte logo!")
+    exit()
+    
 def Adicionar_podutoaocatalogo():
     senha = input('Digite sua senha de Admin:' )
     if senha == UserAdmin:
@@ -122,12 +147,13 @@ while opcao != '5':
         print('Preço total: {0}'.format(somatorio))
         
         continuarcompra = input("Deseja continuar comprando?(sim/não)")
-        if continuarcompra == "nao" or "não":
+        if continuarcompra == "não":
             if continuarcompra == "sim":
                     break
 
             nota = input("Deseja ter sua nota fiscal?(sim/não - sair)")
             if nota == "não":
+                endereço()
                 print('Obrigado pela preferencia! Volte logo.')
                 break
             if nota == "sim":
@@ -149,9 +175,10 @@ while opcao != '5':
             arquivo.write('Data:')
             arquivo.write(str(data_formatada))
             arquivo.write('\n')
-            arquivo.write('--------------')
+            arquivo.write("──────────────────")
             arquivo.write('\n')
             arquivo.close()
+            endereço()
             print('Obrigado pela preferencia! Volte logo.')
             exit()
     if opcao == '4':
@@ -167,6 +194,4 @@ while opcao != '5':
     
     if opcao == '6':
        Adicionar_podutoaocatalogo()
-
-
 
