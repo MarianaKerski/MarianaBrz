@@ -23,6 +23,10 @@ def opcao_1():
     print ("……")
     print("ㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤ")
     email = input("Digite seu email : ")
+    if not email.endswith('@gmail.com'):
+        print("\n")
+        print("Formato de e-mail inválido.")
+        return 
     print ("\n")
 
     print("Cadastre aqui sua senha com os seguintes critérios: \n"
@@ -78,3 +82,4 @@ while True:
     else:
         print("Valor inválido")
         break
+
