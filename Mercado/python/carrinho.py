@@ -61,6 +61,7 @@ def remover_itemcatalogo():
                 temp.append(item)
     if senha != UserAdmin:
                 print('Senha Errada.')
+
 def endereço():
     arquivo=open("endereço.txt","a")
     compra=input("Deseja ter sua compra entregue em sua residência?(sim/não)")
@@ -86,7 +87,7 @@ def endereço():
         print("ㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤ")
         print("Obrigado pela preferência, volte logo!")
     exit()
-    
+
 def Adicionar_podutoaocatalogo():
     senha = input('Digite sua senha de Admin:' )
     if senha == UserAdmin:
@@ -137,36 +138,29 @@ while opcao != '5':
                     somatorio = somatorio + \
                     (produto['preco'] * item['quantidade'])
                     break
-
-            import datetime
-        data_atual = datetime.date.today()
-        data_formatada = data_atual.strftime("%d/%m/%Y")
-
-        print(
+                import datetime
+            data_atual = datetime.date.today()
+            data_formatada = data_atual.strftime("%d/%m/%Y")
+            print(
                 'Nome: {0} - Quantidade: {1}'.format(obterNomeProduto(item['id']), item['quantidade']))
         print('Preço total: {0}'.format(somatorio))
         
-        continuarcompra = input("Deseja continuar comprando?(sim/não)")
-        if continuarcompra == "não":
+        continuarcompra = input("deseja continuar comprando?(sim/nao)")
+        if continuarcompra == "nao":
             if continuarcompra == "sim":
                     break
-
-            nota = input("Deseja ter sua nota fiscal?(sim/não - sair)")
-            if nota == "não":
+            nota = input("Deseja ter sua nota fiscal?(sim/nao - sair)")
+            if nota == "nao":
                 endereço()
-                print('Obrigado pela preferencia! Volte logo.')
-                break
             if nota == "sim":
                 print("Digite seu CPF:")
             cpf = input()
-            print("ㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤ")
             print ("──────────────────")
             print("DATA:", (data_atual))
             print ("──────────────────")
             print( "CPF:", cpf)
             print ("──────────────────")
             print("PREÇO TOTAL = ",somatorio)
-            print ("──────────────────")
             arquivo.write("cpf = ")
             arquivo.write((cpf))
             arquivo.write('\n')
@@ -175,7 +169,7 @@ while opcao != '5':
             arquivo.write('Data:')
             arquivo.write(str(data_formatada))
             arquivo.write('\n')
-            arquivo.write("──────────────────")
+            arquivo.write('--------------')
             arquivo.write('\n')
             arquivo.close()
             endereço()
