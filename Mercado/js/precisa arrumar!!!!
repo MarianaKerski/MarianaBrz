@@ -29,19 +29,18 @@ function main() {
         case '3':
           this.logarComoAdmin();
         main();
-    }
-  });
-}
-
-logarComoAdmin() {
-  console.log('Logando como administrador...');
+      }
+    });
+  }
+function logarComoAdmin():
+ console.log('Logando como administrador...');
   this.rl.question('Digite sua senha: ', (senha) => {
-      if (senha === 'admin') {
-          this.adminLogado = true;
-          this.opcoesDeAdmin();
+    if (senha === 'admin') {
+        this.adminLogado = true;
+        this.opcoesDeAdmin();
       } else {
-          console.log('Senha inválida. Tente novamente.');
-          this.logarComoAdmin();
+        console.log('Senha inválida. Tente novamente.');
+          his.logarComoAdmin();
       }
   });
 }
@@ -174,7 +173,7 @@ function continuarParaPagamento() {
   }
 }
 
-opcoesDeAdmin() {
+opcoesDeAdmin();{
   console.log('Opções de administrador:');
   console.log('1 - Adicionar produto ao catálogo');
   console.log('2 - Remover produto do catálogo');
@@ -200,7 +199,7 @@ opcoesDeAdmin() {
   });
 }
   
-adicionarProdutoAoCatalogo() {
+adicionarProdutoAoCatalogo();{
   console.log('Adicionando produto ao catálogo...');
   this.rl.question('Digite o nome do produto: ', (nome) => {
       this.rl.question('Digite o preço do produto: ', (preco) => {
@@ -217,7 +216,7 @@ adicionarProdutoAoCatalogo() {
   });
 }
 
-removerProdutoDoCatalogo() {
+removerProdutoDoCatalogo();{
   console.log('Removendo produto do catálogo...');
   this.rl.question('Digite o nome do produto: ', (nome) => {
       const index = this.catalogo.findIndex((p) => p.nome === nome);
@@ -233,7 +232,7 @@ removerProdutoDoCatalogo() {
   });
 }
 
-alterarPrecoDeProduto() {
+alterarPrecoDeProduto();{
   console.log('Alterando preço de produto...');
   this.rl.question('Digite o nome do produto: ', (nome) => {
       const produto = this.catalogo.find((p) => p.nome === nome);
@@ -251,7 +250,7 @@ alterarPrecoDeProduto() {
   });
 }
 
-listarProdutosDoCatalogo() {
+listarProdutosDoCatalogo();{
   console.log('Listando produtos do catálogo...');
   this.catalogo.forEach((produto) => {
       console.log(`${produto.id} - ${produto.nome} - R$ ${produto.preco.toFixed(2)}`);
@@ -259,7 +258,7 @@ listarProdutosDoCatalogo() {
   this.opcoesDeAdmin();
 }
 
- sairDoAdmin() {
+ sairDoAdmin();{
   console.log('Saindo do modo administrador...');
   this.adminLogado = false;
   this.boasVindas();
@@ -311,8 +310,8 @@ function menu() {
   }
 
   menu();
-     }  });
-}
+     })};
+
 
 main();
 
