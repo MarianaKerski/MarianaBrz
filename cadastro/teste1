@@ -1,7 +1,0 @@
-arq = open('cadastros.txt', 'a')
-print('Olá, vamos criar a sua conta!')
-email = input('Informe o seu e-mail: ')
-senha = input('Agora, crie sua senha:')
-arq.write('{}, {}\n'.format(email, senha))
-print('Cadastro criado com sucesso!')
-arq.close()
