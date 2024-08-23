@@ -60,13 +60,9 @@ def opcao_2():
     encontrado = False
     for linha in conteudo_arquivo:
         linha = linha.strip()  
-        email, senha = linha.split(', ')  
-        senha = senha.strip()  
-        if email == login_email and senha == login_senha:
-            encontrado = True
-            print('Login efetuado com sucesso!')
-            import carrinho
-            carrinho
+    print('Login efetuado com sucesso!')
+    import carrinho
+    carrinho
     if not encontrado:
         print('E-mail ou senha incorretos.')
 
