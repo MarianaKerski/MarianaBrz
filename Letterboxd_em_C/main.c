@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 
 #define MAX_LINHA 1024
 
@@ -10,13 +11,14 @@ int main() {
 
     do {
         printf("\n");
-        printf("Menu:\n");
+        printf("Seja bem vindo \n");
         printf("1. Ver catálogo de filmes\n");
         printf("2. Avaliar filmes\n");
         printf("3. Sair\n");
         printf("Escolha uma opção: ");
 
         scanf("%d", &option);
+        getchar(); // Limpar o buffer de entrada
 
         switch (option) {
             case 1:
@@ -61,11 +63,13 @@ int main() {
                 int filme_escolhido;
                 printf("\n\nEscolha um filme para avaliar (digite o número do filme): ");
                 scanf("%d", &filme_escolhido);
+                getchar(); // Limpar o buffer de entrada
 
                 // Solicitar ao usuário avaliar o filme com uma nota de 1 a 5
                 int nota;
                 printf("\nAvalie o filme com uma nota de 1 a 5: ");
                 scanf("%d", &nota);
+                getchar(); // Limpar o buffer de entrada
 
                 // Verificar se a nota é válida
                 if (nota < 1 || nota > 5) {
@@ -83,13 +87,17 @@ int main() {
 
                 // Abrir o arquivo de texto para salvar a avaliação
                 arquivo = fopen("avaliacoes_filmes.txt", "a");
-                if (arquivo == NULL) {
-                    printf("Erro ao abrir o arquivo.\n");
-                    break;
+                    if (arquivo == NULL) {
+    // Criar o arquivo se ele não existir
+                arquivo = fopen("avaliacoes_filmes.txt", "w");
+                    if (arquivo == NULL) {
+                printf("Erro ao criar o arquivo.\n");
+                break;
+            }
                 }
 
                 // Salvar a avaliação no arquivo
-                fprintf(arquivo, "Filme %d: Nota %d - %s\n", filme_escolhido, nota, opiniao);
+                fprintf(arquivo, "Filme %d: Nota %d - Opinião: %s\n", filme_escolhido, nota, opiniao);
 
                 // Fechar o arquivo de texto
                 fclose(arquivo);
