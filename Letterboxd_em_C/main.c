@@ -3,6 +3,7 @@
 #include <string.h>
 
 #define MAX_LINHA 1024
+#define MAX_CPF 12
 
 int main() {
     int option;
@@ -14,7 +15,8 @@ int main() {
         printf("Seja bem vindo \n");
         printf("1. Ver catálogo de filmes\n");
         printf("2. Avaliar filmes\n");
-        printf("3. Sair\n");
+        printf("3. Alugar filmes\n");
+        printf("4. Sair\n");
         printf("Escolha uma opção: ");
 
         scanf("%d", &option);
@@ -22,7 +24,7 @@ int main() {
 
         switch (option) {
             case 1:
-                printf("Você escolheu ver catálogo de filmes.\n\n");
+                printf("\nVocê escolheu ver catálogo de filmes.\n\n");
 
                 // Abrir o arquivo de texto
                 arquivo = fopen("catalogo_filmes.txt", "r");
@@ -66,9 +68,9 @@ int main() {
                 getchar(); // Limpar o buffer de entrada
 
                 // Solicitar ao usuário avaliar o filme com uma nota de 1 a 5
-                int nota;
+                float nota;
                 printf("\nAvalie o filme com uma nota de 1 a 5: ");
-                scanf("%d", &nota);
+                scanf("%f", &nota);
                 getchar(); // Limpar o buffer de entrada
 
                 // Verificar se a nota é válida
@@ -88,7 +90,7 @@ int main() {
                 // Abrir o arquivo de texto para salvar a avaliação
                 arquivo = fopen("avaliacoes_filmes.txt", "a");
                     if (arquivo == NULL) {
-    // Criar o arquivo se ele não existir
+                // Criar o arquivo se ele não existir
                 arquivo = fopen("avaliacoes_filmes.txt", "w");
                     if (arquivo == NULL) {
                 printf("Erro ao criar o arquivo.\n");
@@ -97,20 +99,55 @@ int main() {
                 }
 
                 // Salvar a avaliação no arquivo
-                fprintf(arquivo, "Filme %d: Nota %d - Opinião: %s\n", filme_escolhido, nota, opiniao);
+                fprintf(arquivo, "Filme %d: Nota %f - Opinião: %s\n", filme_escolhido, nota, opiniao);
 
                 // Fechar o arquivo de texto
                 fclose(arquivo);
 
                 printf("Avaliação salva com sucesso!\n");
                 break;
+                
             case 3:
+                arquivo = fopen("alugar.txt", "r");
+                if (arquivo == NULL) {
+                    printf("Erro ao abrir o arquivo.\n");
+                    break;
+                }
+
+                // Ler o catálogo de filmes e exibir as opções para alugar
+                int aluga_id = 1;
+                while (fgets(linha, MAX_LINHA, arquivo) != NULL) {
+                    printf("%d. %s", aluga_id, linha);
+                    aluga_id++;
+                }
+
+                // Fechar o arquivo de texto
+                fclose(arquivo);
+
+                // Solicitar ao usuário escolher um filme para avaliar
+                int filme_alugado;
+                printf("\n\nEscolha um filme para alugar (digite o número do filme): ");
+                scanf("%d", &filme_alugado);
+                getchar(); // Limpar o buffer de entrada
+                
+                char alugacao[MAX_LINHA];
+                printf("\nDeseja alugar por 30 dias?(1-Sim/2-Não)\n");
+                scanf("%d", &resp);
+                    if(resp == 1) {
+                 char cpf[MAX_CPF];
+                 printf("Digite seu CPF: ");
+                 scanf("%11s", cpf);
+                 printf("\nFilme alugado com SUCESSO!\n");
+                    }
+                    
+            
+            case 4:
                 printf("Saindo...\n");
                 break;
             default:
                 printf("Opção inválida. Tente novamente.\n");
         }
-    } while (option != 3);
+    } while (option != 4);
 
     return 0;
 }
