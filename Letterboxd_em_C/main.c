@@ -124,22 +124,38 @@ int main() {
                 // Fechar o arquivo de texto
                 fclose(arquivo);
 
-                // Solicitar ao usuário escolher um filme para avaliar
+                //escolher um filme para alugar
                 int filme_alugado;
                 printf("\n\nEscolha um filme para alugar (digite o número do filme): ");
                 scanf("%d", &filme_alugado);
                 getchar(); // Limpar o buffer de entrada
                 
-                char alugacao[MAX_LINHA];
-                printf("\nDeseja alugar por 30 dias?(1-Sim/2-Não)\n");
-                scanf("%d", &resp);
-                    if(resp == 1) {
-                 char cpf[MAX_CPF];
-                 printf("Digite seu CPF: ");
-                 scanf("%11s", cpf);
-                 printf("\nFilme alugado com SUCESSO!\n");
-                    }
-                    
+                // Check if the chosen movie is valid
+                if (filme_alugado < 1 || filme_alugado > aluga_id - 1) {
+                    printf("Erro: Filme inválido.\n");
+            } else {
+                // Mark the movie as rented in the catalog file
+                arquivo = fopen("alugar.txt", "r+");
+                if (arquivo == NULL) {
+                    printf("Erro ao abrir o arquivo.\n");
+                break;
+            }
+
+                // Move the file pointer to the chosen movie's line
+                fseek(arquivo, (filme_alugado - 1) * MAX_LINHA, SEEK_SET);
+
+                 // Read the movie's title and mark it as rented
+                char linha[MAX_LINHA];
+                fgets(linha, MAX_LINHA, arquivo);
+                char* titulo = strtok(linha, "\n");
+                printf("Você escolheu alugar o filme: %s\n", titulo);
+
+                // Update the catalog file to reflect the changes
+                fseek(arquivo, (filme_alugado - 1) * MAX_LINHA, SEEK_SET);
+                fprintf(arquivo, "%s (Alugado)\n", titulo);
+
+                fclose(arquivo);
+            }
             
             case 4:
                 printf("Saindo...\n");
