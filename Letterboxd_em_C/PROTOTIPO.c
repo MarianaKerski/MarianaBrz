@@ -228,20 +228,39 @@ int main2() {
                         printf("Erro: Filme inválido.\n");
                 }   else {
                 // Mark the movie as rented in the catalog file
-                arquivo = fopen("alugar.txt", "r+");
+                    arquivo = fopen("alugar.txt", "r+");
                     if (arquivo == NULL) {
                         printf("Erro ao abrir o arquivo.\n");
-                break;
+                    break;
                 }
 
                 // Move the file pointer to the chosen movie's line
                 fseek(arquivo, (filme_alugado - 1) * MAX_LINHA, SEEK_SET);
 
-                 // Read the movie's title and mark it as rented
+    // Read the movie's title and mark it as rented
                 char linha[MAX_LINHA];
                 fgets(linha, MAX_LINHA, arquivo);
-                char* titulo = strtok(linha, "\n");
+                char titulo[MAX_LINHA];
+                strcpy(titulo, linha);
+                titulo[strcspn(titulo, "\n")] = 0;
                 printf("Você escolheu alugar o filme: %s\n", titulo);
+
+    // Get the user's CPF
+                char cpf[15];
+                printf("Digite seu CPF: ");
+                scanf("%14s", cpf); // assume CPF has 11 digits and 4 hyphens
+
+    // Save the rented movie to a file
+                FILE *alugados = fopen("alugados.txt", "a"); // open in append mode
+                if (alugados == NULL) {
+                    printf("Erro ao abrir o arquivo de alugados.\n");
+                    break;
+                }
+
+    // Write the rented movie to the file
+                fprintf(alugados, "%s - %s\n", cpf, titulo);
+
+                fclose(alugados);
 
                 fclose(arquivo);
                 }
