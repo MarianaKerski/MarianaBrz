@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
+#include <time.h>
 
 #define MAX_CPF 12
 #define MAX_SENHA 20
@@ -26,11 +27,11 @@ void registrar_usuario() {
         return;
     }
 
-    fprintf(fp, "%s:%s\n", cpf, senha);
+    fprintf(fp, "CPF:%s- SENHA:%s\n", cpf, senha);
     fclose(fp);
 
-    printf("Usuário registrado com sucesso!\n");
-    return;
+    printf("Usuário registrado com sucesso!\n\n");
+    return main2();
 }
 
 int login_usuario() {
@@ -93,7 +94,7 @@ int main1() {
         }
     } else {
         printf("Escolha inválida!\n");
-        return main1();
+        return main2();
     }
 
     return 0;
@@ -200,80 +201,104 @@ int main2() {
 
                 printf("Avaliação salva com sucesso!\n");
                 break;
+
             case 3:
-                arquivo = fopen("alugar.txt", "r");
+                printf("Você escolheu alugar filmes.\n");
+
+                // Abrir o arquivo de texto para ler o catálogo de filmes
+                arquivo = fopen(CATALOGO_FILMES, "r");
                 if (arquivo == NULL) {
                     printf("Erro ao abrir o arquivo.\n");
                     break;
                 }
 
-                // Ler o catálogo de filmes e exibir as opções para alugar
-                int aluga_id = 1;
+                // Ler o catálogo de filmes e exibir as opções
+                int filme_alugado;
+                printf("Escolha um filme para alugar:\n");
+                int j = 1;
                 while (fgets(linha, MAX_LINHA, arquivo) != NULL) {
-                    printf("%d. %s", aluga_id, linha);
-                    aluga_id++;
+                    printf("%d. %s", j, linha);
+                    j++;
                 }
 
-                // Fechar o arquivo de texto
                 fclose(arquivo);
 
-                //escolher um filme para alugar
-                int filme_alugado;
-                printf("\n\nEscolha um filme para alugar (digite o número do filme): ");
+                printf("\nDigite o número do filme: ");
                 scanf("%d", &filme_alugado);
-                getchar(); // Limpar o buffer de entrada
-                
-                // Check if the chosen movie is valid
-                    if (filme_alugado < 1 || filme_alugado > aluga_id - 1) {
-                        printf("Erro: Filme inválido.\n");
-                }   else {
-                // Mark the movie as rented in the catalog file
-                    arquivo = fopen("alugar.txt", "r+");
-                    if (arquivo == NULL) {
-                        printf("Erro ao abrir o arquivo.\n");
-                    break;
-                }
 
-                // Move the file pointer to the chosen movie's line
-                fseek(arquivo, (filme_alugado - 1) * MAX_LINHA, SEEK_SET);
-
-    // Read the movie's title and mark it as rented
-                char linha[MAX_LINHA];
-                fgets(linha, MAX_LINHA, arquivo);
-                char titulo[MAX_LINHA];
-                strcpy(titulo, linha);
-                titulo[strcspn(titulo, "\n")] = 0;
-                printf("Você escolheu alugar o filme: %s\n", titulo);
-
-    // Get the user's CPF
-                char cpf[15];
+                char cpf[MAX_CPF];
                 printf("Digite seu CPF: ");
-                scanf("%14s", cpf); // assume CPF has 11 digits and 4 hyphens
+                scanf("%11s", cpf);
 
-    // Save the rented movie to a file
+                // Save the rented movie to a file
                 FILE *alugados = fopen("alugados.txt", "a"); // open in append mode
                 if (alugados == NULL) {
                     printf("Erro ao abrir o arquivo de alugados.\n");
                     break;
                 }
 
-    // Write the rented movie to the file
-                fprintf(alugados, "%s - %s\n", cpf, titulo);
+                // Write the rented movie to the file
+                time_t data_aluguel = time(NULL); // Armazenar a data de aluguel
+                struct tm *info = localtime(&data_aluguel);
+                char data_aluguel_str[20];
+                strftime(data_aluguel_str, sizeof(data_aluguel_str), "%d/%m/%Y", info);
+
+                info->tm_mday += 30; // Adicionar 30 dias
+                time_t data_vencimento = mktime(info);
+                char data_vencimento_str[20];
+                strftime(data_vencimento_str, sizeof(data_vencimento_str), "%d/%m/%Y", info);
+
+                fprintf(alugados, "CPF:%s - FILME:%d - DATA_ALUGUEL:%s - DATA_VENCIMENTO:%s\n", cpf, filme_alugado, data_aluguel_str, data_vencimento_str);
 
                 fclose(alugados);
 
-                fclose(arquivo);
-                }
+                printf("\nFilme alugado com sucesso!\n\n");
                 break;
             case 4:
-                printf("Saindo...\n");
-                break;
+                printf("Você escolheu sair.\n");
+                return 0;
             default:
-                printf("Opção inválida. Tente novamente.\n");
+                printf("Escolha inválida!\n");
         }
     } while (option != 4);
 
     return 0;
+}
+
+void verificar_vencimento() {
+    FILE *alugados = fopen("alugados.txt", "r");
+    if (alugados == NULL) {
+        printf("Erro ao abrir o arquivo de alugados.\n");
+        return;
+    }
+
+    char linha[MAX_LINHA];
+    while (fgets(linha, MAX_LINHA, alugados) != NULL) {
+        char *token = strtok(linha, "-");
+        char *cpf = token;
+        token = strtok(NULL, "-");
+        int filme_alugado = atoi(token);
+        token = strtok(NULL, "-");
+        char *data_aluguel_str = token;
+        token = strtok(NULL, "-");
+        char *data_vencimento_str = token;
+
+        printf("CPF: %s - FILME: %d - DATA_ALUGUEL: %s - DATA_VENCIMENTO: %s\n", cpf, filme_alugado, data_aluguel_str, data_vencimento_str);
+
+        // Verificar se a data de vencimento é hoje ou anterior
+        time_t agora = time(NULL);
+        struct tm *info_agora = localtime(&agora);
+        struct tm info_vencimento = *info_agora;
+        sscanf(data_vencimento_str, "%d/%d/%d", &info_vencimento.tm_mday, &info_vencimento.tm_mon, &info_vencimento.tm_year);
+        info_vencimento.tm_mon -= 1; // ajustar para o formato de mês do tm
+        info_vencimento.tm_year -= 1900; // ajustar para o formato de ano do tm
+
+        if (mktime(&info_vencimento) <= agora) {
+            printf("Filme %d do CPF %s está vencido!\n", filme_alugado, cpf);
+        }
+    }
+
+    fclose(alugados);
 }
 
 int main() {
