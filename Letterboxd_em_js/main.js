@@ -9,8 +9,10 @@ const catalogoFilmes = 'catalogo_filmes.txt';
 const avaliacoesFilmes = 'avaliacoes_filmes.txt';
 const alugados = 'alugados.txt';
 
+let adminLogado = false;
+
 function main() {
-  console.log('1 - Cadastrar\n2 - Entrar');
+  console.log('1 - Cadastrar\n2 - Entrar\n3 - Entrar como Admin');
   readline.question('Escolha uma opção: ', option => {
     switch (option) {
       case '1':
@@ -18,6 +20,9 @@ function main() {
         break;
       case '2':
         loginUsuario();
+        break;
+      case '3':
+        loginAdmin();
         break;
       default:
         console.log('Opção inválida. Tente novamente.');
@@ -36,8 +41,8 @@ function cadastrarUsuario() {
 }
 
 function salvarUsuario(username, password) {
-  const user = `${username}:${password}\n`;
-  fs.appendFile(fileName, user, (err) => {
+  const user = `\n${username}:${password}`;
+    fs.appendFile(fileName, user, (err) => {
     if (err) throw err;
     console.log('Usuário cadastrado com sucesso!');
   });
@@ -62,14 +67,29 @@ function verificarLogin(username, password) {
       const [userUsername, userPassword] = user.split(':');
       return userUsername === username && userPassword === password;
     });
-
     if (userFound) {
       console.log('Login efetuado com sucesso!');
       menuPrincipal();
+        
     } else {
-      console.log('Usuário ou senha inválidos.');
+        console.log('Usuário ou senha inválidos.');
       main();
     }
+  });
+}
+
+function loginAdmin() {
+  readline.question('Digite o nome de usuário: ', username => {
+    readline.question('Digite a senha: ', password => {
+      if (username === 'admin' && password === 'admin') {
+        adminLogado = true;
+        console.log('Login como admin efetuado com sucesso!');
+        menuAdmin();
+      } else {
+        console.log('Usuário ou senha inválidos.');
+        main();
+      }
+    });
   });
 }
 
@@ -101,13 +121,43 @@ function menuPrincipal() {
   });
 }
 
+function menuAdmin() {
+  console.log('\nSeja bem vindo, Admin!\n');
+  console.log('1. Adicionar filme ao catálogo\n');
+  console.log('2. Remover filme do catálogo\n');
+  console.log('3. Ver catálogo de filmes\n');
+  console.log('4. Sair\n');
+  readline.question('Escolha uma opção: ', opcao => {
+    switch (opcao) {
+      case '1':
+        adicionarFilmeAoCatalogo();
+        break;
+      case '2':
+        removerFilmeDoCatalogo();
+        break;
+      case '3':
+        verCatalogoFilmes();
+        break;
+      case '4':
+        return main();
+      default:
+        console.log('Opção inválida. Tente novamente.');
+        menuAdmin();
+    }
+  });
+}
+
 function verCatalogoFilmes() {
   fs.readFile(catalogoFilmes, 'utf8', (err, data) => {
     if (err) {
       console.error('Erro ao abrir o arquivo.');
     } else {
       console.log(data);
-      menuPrincipal();
+      if (adminLogado) {
+        menuAdmin();
+      } else {
+        menuPrincipal();
+      }
     }
   });
 }
@@ -176,6 +226,51 @@ function alugarFilmes() {
             });
           });
         }
+      });
+    }
+  });
+}
+
+function adicionarFilmeAoCatalogo() {
+  readline.question('Digite o título do filme: ', titulo => {
+    readline.question('Digite o ano do filme: ', ano => {
+         readline.question('Digite a categoria do filme: ', categoria => {
+      fs.appendFile(catalogoFilmes, `\n${titulo} , ${ano} , ${categoria}`, (err) => {
+        if (err) {
+          console.error('Erro ao criar o arquivo.');
+        } else {
+          console.log('Filme adicionado ao catálogo com sucesso!');
+          menuAdmin();
+        }
+      });
+    });
+  });
+  });
+}
+
+function removerFilmeDoCatalogo() {
+  fs.readFile(catalogoFilmes, 'utf8', (err, data) => {
+    if (err) {
+      console.error('Erro ao abrir o arquivo.');
+    } else {
+      const filmes = data.split('\n');
+      let id = 1;
+      for (const filme of filmes) {
+        console.log(`${id}. ${filme}`);
+        id++;
+      }
+      readline.question('Escolha um filme para remover (digite o número do filme): ', filmeRemovido => {
+        const filmesArray = data.split('\n');
+        filmesArray.splice(filmeRemovido - 1, 1);
+        const novoCatalogo = filmesArray.join('\n');
+        fs.writeFile(catalogoFilmes, novoCatalogo, (err) => {
+          if (err) {
+            console.error('Erro ao remover o filme do catálogo.');
+          } else {
+            console.log('Filme removido do catálogo com sucesso!');
+            menuAdmin();
+          }
+        });
       });
     }
   });
