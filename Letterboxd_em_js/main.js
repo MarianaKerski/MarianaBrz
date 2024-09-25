@@ -124,7 +124,7 @@ function avaliarFilmes() {
         id++;
       }
       readline.question('Escolha um filme para avaliar (digite o número do filme): ', filmeEscolhido => {
-        readline.question('Avalie o filme com uma nota de 1 a 5: ', nota => {
+        readline.question('Avalie o filme com uma nota de 0.5 a 5: ', nota => {
           if (nota < 0.5 || nota > 5) {
             console.log('Nota inválida. Tente novamente.');
             avaliarFilmes();
@@ -147,14 +147,14 @@ function avaliarFilmes() {
 }
 
 function alugarFilmes() {
-  fs.readFile(alugados, 'utf8', (err, data) => {
+  fs.readFile(catalogoFilmes, 'utf8', (err, data) => {
     if (err) {
       console.error('Erro ao abrir o arquivo.');
     } else {
       const filmes = data.split('\n');
       let id = 1;
       for (const filme of filmes) {
-        console.log(`${id}. ${filme}`);
+        console.log(`${id}. ${filme}. `);
         id++;
       }
       readline.question('Escolha um filme para alugar (digite o número do filme): ', filmeAlugado => {
@@ -162,8 +162,10 @@ function alugarFilmes() {
           console.log('Erro: Filme inválido.');
           alugarFilmes();
         } else {
+          const data = new Date();
+          const datavenc = new Date();
           readline.question('Digite seu CPF: ', cpf => {
-            fs.appendFile(alugados, `${cpf} - ${filmeAlugado}\n`, (err) => {
+            fs.appendFile(alugados, `CPF:${cpf} - Número do filme alugado:${filmeAlugado} - data do aluguel:${data.toLocaleDateString()} - data de vencimento do aluguel:${datavenc.toLocaleDateString()}\n`, (err) => {
               if (err) {
                 console.error('Erro ao abrir o arquivo de alugados.');
               } else {
