@@ -164,6 +164,7 @@ function alugarFilmes() {
         } else {
           const data = new Date();
           const datavenc = new Date();
+          datavenc.setDate(datavenc.getDate() + 30)
           readline.question('Digite seu CPF: ', cpf => {
             fs.appendFile(alugados, `CPF:${cpf} - Número do filme alugado:${filmeAlugado} - data do aluguel:${data.toLocaleDateString()} - data de vencimento do aluguel:${datavenc.toLocaleDateString()}\n`, (err) => {
               if (err) {
