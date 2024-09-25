@@ -1,0 +1,91 @@
+case 6:
+    printf("Você escolheu criar uma lista.\n\n");
+    criar_lista();
+    break;
+
+
+
+void criar_lista() {
+    char nome_lista[MAX_LINHA];
+    printf("Digite o nome da lista: ");
+    fgets(nome_lista, MAX_LINHA, stdin);
+    nome_lista[strcspn(nome_lista, "\n")] = 0; // Remover o caractere de newline
+
+    FILE *catalogo = fopen(CATALOGO_FILMES, "r");
+    if (catalogo == NULL) {
+        printf("Erro ao abrir o arquivo de catálogo.\n");
+        return;
+    }
+
+    printf("Selecione os filmes para adicionar à lista:\n");
+    int filme_id = 1;
+    while (fgets(linha, MAX_LINHA, catalogo) != NULL) {
+        printf("%d. %s", filme_id, linha);
+        filme_id++;
+    }
+
+    fclose(catalogo);
+
+    int filmes_selecionados[MAX_LINHA];
+    int num_filmes = 0;
+    printf("Digite os números dos filmes que você deseja adicionar à lista (separados por espaços): ");
+    char input[MAX_LINHA];
+    fgets(input, MAX_LINHA, stdin);
+    char *token = strtok(input, " ");
+    while (token != NULL) {
+        filmes_selecionados[num_filmes++] = atoi(token);
+        token = strtok(NULL, " ");
+    }
+
+    // Salvar a lista em um arquivo de texto
+    char cpf[MAX_CPF];
+    printf("Digite seu CPF: ");
+    scanf("%11s", cpf);
+
+    char arquivo_lista[MAX_LINHA];
+    sprintf(arquivo_lista, "lista_%s_%s.txt", cpf, nome_lista);
+    FILE *lista = fopen(arquivo_lista, "w");
+    if (lista == NULL) {
+        printf("Erro ao criar o arquivo de lista.\n");
+        return;
+    }
+
+    fprintf(lista, "Nome da lista: %s\n", nome_lista);
+    for (int i = 0; i < num_filmes; i++) {
+        fprintf(lista, "Filme %d\n", filmes_selecionados[i]);
+    }
+
+    fclose(lista);
+
+    printf("Lista criada com sucesso!\n");
+}
+
+
+void ler_lista() {
+    char cpf[MAX_CPF];
+    printf("Digite seu CPF: ");
+    scanf("%11s", cpf);
+
+    char arquivo_lista[MAX_LINHA];
+    sprintf(arquivo_lista, "lista_%s_*.txt", cpf);
+    DIR *dir;
+    struct dirent *ent;
+    dir = opendir(".");
+    if (dir == NULL) {
+        printf("Erro ao abrir o diretório.\n");
+        return;
+    }
+
+    printf("Listas disponíveis:\n");
+    while ((ent = readdir(dir)) != NULL) {
+        if (strstr(ent->d_name, arquivo_lista) != NULL) {
+            printf("%s\n", ent->d_name);
+        }
+    }
+
+    closedir(dir);
+
+    char lista_escolhida[MAX_LINHA];
+    printf("Digite o nome da lista que você deseja ver: ");
+    fgets(lista_escolhida, MAX_LINHA, stdin);
+    lista_escolhida[strc
