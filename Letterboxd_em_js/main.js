@@ -12,7 +12,7 @@ const alugados = 'alugados.txt';
 let adminLogado = false;
 
 function main() {
-  console.log('1 - Cadastrar\n2 - Entrar\n3 - Entrar como Admin');
+  console.log('1 - Cadastrar\n2 - Entrar\n3 - Entrar como Admin\n4 - sair');
   readline.question('Escolha uma opção: ', option => {
     switch (option) {
       case '1':
@@ -24,11 +24,16 @@ function main() {
       case '3':
         loginAdmin();
         break;
+      case '4':
+        console.log("ATÉ LOGO!!")
+        exit()
+        break;
       default:
         console.log('Opção inválida. Tente novamente.');
         main();
     }
   });
+  console.log("\n");
 }
 
 function cadastrarUsuario() {
@@ -64,7 +69,7 @@ function verificarLogin(username, password) {
     }
     const users = data.split('\n');
     const userFound = users.find(user => {
-      const [userUsername, userPassword] = user.split(':');
+    const [userUsername, userPassword] = user.split(':');
       return userUsername === username && userPassword === password;
     });
     if (userFound) {
@@ -95,10 +100,10 @@ function loginAdmin() {
 
 function menuPrincipal() {
   console.log('\nSeja bem vindo!\n');
-  console.log('1. Ver catálogo de filmes\n');
-  console.log('2. Avaliar filmes\n');
-  console.log('3. Alugar filmes\n');
-  console.log('4. Sair\n');
+  console.log('1. Ver catálogo de filmes');
+  console.log('2. Avaliar filmes');
+  console.log('3. Alugar filmes');
+  console.log('4. Sair');
   readline.question('Escolha uma opção: ', opcao => {
     switch (opcao) {
       case '1':
@@ -112,7 +117,7 @@ function menuPrincipal() {
         break;
       case '4':
         console.log('Saindo...');
-        process.exit();
+        return main();
         break;
       default:
         console.log('Opção inválida. Tente novamente.');
@@ -123,19 +128,22 @@ function menuPrincipal() {
 
 function menuAdmin() {
   console.log('\nSeja bem vindo, Admin!\n');
-  console.log('1. Adicionar filme ao catálogo\n');
-  console.log('2. Remover filme do catálogo\n');
-  console.log('3. Ver catálogo de filmes\n');
-  console.log('4. Sair\n');
+  console.log('1. Adicionar filme ao catálogo');
+  console.log('2. Remover filme do catálogo');
+  console.log('3. Ver catálogo de filmes');
+  console.log('4. Sair');
   readline.question('Escolha uma opção: ', opcao => {
     switch (opcao) {
       case '1':
+        console.log("\n");
         adicionarFilmeAoCatalogo();
         break;
       case '2':
+        console.log("\n");
         removerFilmeDoCatalogo();
         break;
       case '3':
+        console.log("\n");
         verCatalogoFilmes();
         break;
       case '4':
@@ -173,14 +181,14 @@ function avaliarFilmes() {
         console.log(`${id}. ${filme}`);
         id++;
       }
-      readline.question('Escolha um filme para avaliar (digite o número do filme): ', filmeEscolhido => {
-        readline.question('Avalie o filme com uma nota de 0.5 a 5: ', nota => {
+      readline.question('\nEscolha um filme para avaliar (digite o número do filme): ', filmeEscolhido => {
+        readline.question('\nAvalie o filme com uma nota de 0.5 a 5: ', nota => {
           if (nota < 0.5 || nota > 5) {
             console.log('Nota inválida. Tente novamente.');
             avaliarFilmes();
           } else {
-            readline.question('Adicione sua opinião sobre o filme: ', opiniao => {
-              fs.appendFile(avaliacoesFilmes, `Filme ${filmeEscolhido}: Nota ${nota} - Opinião: ${opiniao}\n`, (err) => {
+            readline.question('\nAdicione sua opinião sobre o filme: ', opiniao => {
+              fs.appendFile(avaliacoesFilmes, `Filme ${filmeEscolhido} - Nota ${nota} - Opinião: ${opiniao}\n`, (err) => {
                 if (err) {
                   console.error('Erro ao criar o arquivo.');
                 } else {
@@ -207,7 +215,7 @@ function alugarFilmes() {
         console.log(`${id}. ${filme}. `);
         id++;
       }
-      readline.question('Escolha um filme para alugar (digite o número do filme): ', filmeAlugado => {
+      readline.question('\nEscolha um filme para alugar (digite o número do filme): ', filmeAlugado => {
         if (filmeAlugado < 1 || filmeAlugado > id - 1) {
           console.log('Erro: Filme inválido.');
           alugarFilmes();
@@ -215,8 +223,8 @@ function alugarFilmes() {
           const data = new Date();
           const datavenc = new Date();
           datavenc.setDate(datavenc.getDate() + 30)
-          readline.question('Digite seu CPF: ', cpf => {
-            fs.appendFile(alugados, `CPF:${cpf} - Número do filme alugado:${filmeAlugado} - data do aluguel:${data.toLocaleDateString()} - data de vencimento do aluguel:${datavenc.toLocaleDateString()}\n`, (err) => {
+          readline.question('\nDigite seu CPF: ', cpf => {
+            fs.appendFile(alugados, `CPF: ${cpf} - Número do filme alugado: ${filmeAlugado} - data do aluguel: ${data.toLocaleDateString()} - data de vencimento do aluguel:${datavenc.toLocaleDateString()}\n`, (err) => {
               if (err) {
                 console.error('Erro ao abrir o arquivo de alugados.');
               } else {
@@ -232,10 +240,10 @@ function alugarFilmes() {
 }
 
 function adicionarFilmeAoCatalogo() {
-  readline.question('Digite o título do filme: ', titulo => {
-    readline.question('Digite o ano do filme: ', ano => {
-         readline.question('Digite a categoria do filme: ', categoria => {
-      fs.appendFile(catalogoFilmes, `\n${titulo} , ${ano} , ${categoria}`, (err) => {
+  readline.question('Digite o título do filme: ',titulo => {
+    readline.question('Digite o ano do filme: ',ano => {
+         readline.question('Digite a categoria do filme: ',categoria => {
+      fs.appendFile(catalogoFilmes, `\n${titulo},${ano} ,${categoria}`, (err) => {
         if (err) {
           console.error('Erro ao criar o arquivo.');
         } else {
