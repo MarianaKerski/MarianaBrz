@@ -112,7 +112,8 @@ int main2() {
         printf("2. Avaliar filmes\n");
         printf("3. Alugar filmes\n");
         printf("4. Sair\n");
-        printf("5. Criar lista\n"); // Adicionado opção para criar lista
+        printf("5. Criar lista\n"); 
+        printf("6. verificar vencimento\n");
         printf("\nEscolha uma opção: \n");
 
         scanf("%d", &option);
@@ -259,6 +260,10 @@ int main2() {
                 printf("Você escolheu criar uma lista.\n\n");
                 criar_lista();
                 break;
+            
+            case 6:
+            printf("Você escolheu verificar_vencimento.\n");
+            verificar_vencimento();
             case 4:
                 printf("Você escolheu sair.\n");
                 return 0;
@@ -333,7 +338,7 @@ void verificar_vencimento() {
         return;
     }
 
-    char linha[MAX_LINHA]; // Declarar a variável linha
+    char linha[MAX_LINHA];
     while (fgets(linha, MAX_LINHA, alugados) != NULL) {
         char *token = strtok(linha, "-");
         char *cpf = token;
@@ -349,13 +354,52 @@ void verificar_vencimento() {
         // Verificar se a data de vencimento é hoje ou anterior
         time_t agora = time(NULL);
         struct tm *info_agora = localtime(&agora);
-        struct tm info_vencimento = *info_agora;
+        struct tm info_vencimento;
         sscanf(data_vencimento_str, "%d/%d/%d", &info_vencimento.tm_mday, &info_vencimento.tm_mon, &info_vencimento.tm_year);
         info_vencimento.tm_mon -= 1; // ajustar para o formato de mês do tm
         info_vencimento.tm_year -= 1900; // ajustar para o formato de ano do tm
+        info_vencimento.tm_hour = 0; // ajustar para a hora 0
+        info_vencimento.tm_min = 0; // ajustar para o minuto 0
+        info_vencimento.tm_sec = 0; // ajustar para o segundo 0
 
-        if (mktime(&info_vencimento) <= agora) {
-            printf("Filme %d do CPF %s está vencido!\n", filme_alugado, cpf);
+        time_t vencimento = mktime(&info_vencimento);
+
+        // Ler o título do filme correspondente ao número selecionado
+        FILE *catalogo = fopen(CATALOGO_FILMES, "r");
+        if (catalogo == NULL) {
+            printf("Erro ao abrir o arquivo de catálogo.\n");
+            return;
+        }
+
+        int filme_id = 1;
+        char linha_catalogo[MAX_LINHA];
+        while (fgets(linha_catalogo, MAX_LINHA, catalogo) != NULL) {
+            if (filme_id == filme_alugado) {
+                printf("Título do filme: %f", linha_catalogo);
+                break;
+            }
+            filme_id++;
+        }
+
+        fclose(catalogo);
+
+        // Comparar apenas a data, sem considerar a hora
+        struct tm *info_vencimento_sem_hora = localtime(&vencimento);
+        struct tm *info_agora_sem_hora = localtime(&agora);
+        info_vencimento_sem_hora->tm_hour = 0;
+        info_vencimento_sem_hora->tm_min = 0;
+        info_vencimento_sem_hora->tm_sec = 0;
+        info_agora_sem_hora->tm_hour = 0;
+        info_agora_sem_hora->tm_min = 0;
+        info_agora_sem_hora->tm_sec = 0;
+
+        time_t vencimento_sem_hora = mktime(info_vencimento_sem_hora);
+        time_t agora_sem_hora = mktime(info_agora_sem_hora);
+
+        if (vencimento_sem_hora < agora_sem_hora) {
+            printf("Filme %d está vencido!\n", filme_alugado);
+        } else {
+            printf("Filme %d não está vencido!\n", filme_alugado);
         }
     }
 
